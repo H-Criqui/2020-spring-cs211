@@ -25,9 +25,28 @@ public class Deck
 
     }
 
-    public void Shuffle()
+    public void AddToBottom(Card card)
     {
+        Cards.AddFirst(card);
     }
 
+    public Card RemoveFromBottom()
+    {
+        Card bottomCard = Cards.First();
+        Cards.RemoveFirst();
+        return bottomCard;
+    }
+
+    public bool empty()
+    {
+        if(Cards.Count == 0)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
     
 }

@@ -2,18 +2,23 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Rotate : MonoBehaviour
+public class AddDeck : MonoBehaviour
 {
-    public GameObject ToRotate;
-
     // Start is called before the first frame update
     void Start()
     {
+        
     }
 
     // Update is called once per frame
     void Update()
     {
-        ToRotate.transform.Rotate(0, 100 * Time.deltaTime, 0, Space.World);
+        
+    }
+    public GameObject manager;
+
+    public void OnClick()
+    {
+        manager.GetComponent<GameManager>().addDeck();
     }
 }

@@ -5,23 +5,24 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     public GameObject CardPrefab;
-
-    private PokerDeck _deck;
-
+    public GameObject deck_area;
+    public PokerDeck _deck;
+    private Deck _temp;
+    private Deck _temp2;
     // Start is called before the first frame update
     void Start()
     {
         _deck = new PokerDeck();
-        DrawTopCard();
-        
     }
 
     //Draws top card from deck and displays it on the screen
-    void DrawTopCard()
+   
+    public void DrawTopCard()
     {
         if (CardPrefab != null)
         {
             var card = GameObject.Instantiate<GameObject>(CardPrefab, Vector3.zero, Quaternion.identity);
+            card.transform.SetParent(deck_area.transform, false);
             var controller = card.GetComponent<CardController>();
 
             //attach card C# object to card Unity object
@@ -33,6 +34,37 @@ public class GameManager : MonoBehaviour
                 controller.UpdateFaceMaterial();
             }
         }
+    }
+
+    public void DrawBottomCard()
+    {
+        if (CardPrefab != null)
+        {
+            var card = GameObject.Instantiate<GameObject>(CardPrefab, Vector3.zero, Quaternion.identity);
+            card.transform.SetParent(deck_area.transform, false);
+            var controller = card.GetComponent<CardController>();
+
+            //attach card C# object to card Unity object
+            controller.Card = _deck.RemoveFromBottom();
+
+            if (controller != null)
+            {
+                controller.FaceMaterial = PokerCardFactory.GetInstance().Materials[controller.Card.Name];
+                controller.UpdateFaceMaterial();
+            }
+        }
+    }
+    
+   
+    public int numberOfDecks = 1;
+    public void addDeck()
+    {
+        PokerDeck temp = new PokerDeck();
+        while (!temp.empty())
+        {
+            _deck.AddToTop(temp.RemoveFromTop());
+        }
+        numberOfDecks += 1;
     }
 
     // Update is called once per frame
